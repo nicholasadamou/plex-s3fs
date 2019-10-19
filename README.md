@@ -29,7 +29,7 @@ After your droplet is created, I recommend using SSH instead of the web console.
 
 [![xkcd: Automation](http://imgs.xkcd.com/comics/automation.png)](http://xkcd.com/1319/)
 
-Now, to install my `plex-s3fs`, just run the snippet in `terminal`:
+Now, to install `plex-s3fs`, just run the snippet in `terminal`:
 
 (⚠️ **DO NOT** run the `install` snippet if you don't fully
 understand [what it does](install.sh). Seriously, **DON'T**!)
