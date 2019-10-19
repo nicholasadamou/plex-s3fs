@@ -15,6 +15,8 @@ A while back a good pal of mine introduced me to Plex. I started looking up stuf
 
 ## Getting Started
 
+## Digital Ocean Account & Droplet
+
 In order to start, you must first create a VPS (Virtual Private Server) using Digital Ocean or one of its competitors. First, go to [Digital Ocean](https://m.do.co/c/6256ee0966d5) and create an account using my referral code to get yourself a \$10 credit to see if you want to stick with it.
 
 After your account is created, log in and create a new **droplet**.
@@ -24,6 +26,14 @@ After your account is created, log in and create a new **droplet**.
 _When it asks you what distribution of Linux to install_, be sure to **choose the latest version of Ubuntu**.
 
 After your droplet is created, I recommend using SSH instead of the web console. On PC, get [Putty](http://www.chiark.greenend.org.uk/~sgtatham/putty/), and for Mac, open terminal and type `ssh root@your-ip-here` and replace `youriphere` with the IP of your droplet. It will prompt you for your password, enter it and your in!
+
+## Amazon AWS Account & S3 Bucket
+
+Secondly, you must create a Amazon AWS S3 Bucket. To do this, you must first have an Amazon AWS account. To create one, visit [this](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/) link.
+
+After your account is created, log in and click on **"S3"** under **"Storage & Contend Delivery"** and create a new bucket.
+
+After your bucket is created, click on your name at the top right corner and from the drop down menu choose **"My Security Credentials"**. Click on **"Access Keys"** and **"Create New Access Key"** and download the file. This file contains your **access key** and **secret** for accessing your S3 bucket outside of the web portal. If you do not download them, you will have to delete the previous key and generate a new one.
 
 ## Setup
 
