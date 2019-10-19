@@ -33,7 +33,7 @@ Secondly, you must create a Amazon AWS S3 Bucket. To do this, you must first hav
 
 After your account is created, log in and click on **"S3"** under **"Storage & Contend Delivery"** and create a new bucket.
 
-After your bucket is created, click on your name at the top right corner and from the drop down menu choose **"My Security Credentials"**. Click on **"Access Keys"** and **"Create New Access Key"** and download the file. This file contains your **access key** and **secret** for accessing your S3 bucket outside of the web portal. If you do not download them, you will have to delete the previous key and generate a new one.
+After your bucket is created, click on your name at the top right corner and from the drop-down menu choose **"My Security Credentials"**. Click on **"Access Keys"** and **"Create New Access Key"** and download the file. This file contains your **access key** and **secret** for accessing your S3 bucket outside of the web portal. If you do not download them, you will have to delete the previous key and generate a new one.
 
 ## Setup
 
