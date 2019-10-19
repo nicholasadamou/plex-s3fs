@@ -19,6 +19,7 @@ main() {
 		../test \
         -type f \
         -exec shellcheck \
+			-e SC1090 \
         {} +
 
     print_result $? "Run code through ShellCheck"
