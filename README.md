@@ -1,4 +1,4 @@
-# plex-s3fs 🎥
+# plex-s3fs 🎥🍿
 
 A Plex Media Server install script that is backed by an Amazon S3 Bucket.
 
