@@ -40,7 +40,7 @@ bash <(curl -s -L https://raw.githubusercontent.com/nicholasadamou/plex-s3fs/mas
 
 That's it! ✨
 
-## Running on a headless server
+### Running on a headless server
 
 In order to properly configure our Plex server, we need to add the required claim token. To add the token, you will need to use ssh tunneling to gain access and setup the server for first run. During the first run, you setup the server to make it available and configurable. However, this setup option will only be triggered if you access it over http://localhost:32400/web, it will not be triggered if you access it over http://ip_of_server:32400/web. Since we are setting up PMS (Plex Media Server) on a headless server, you can use a SSH tunnel to link http://localhost:32400/web (on your current computer) to http://localhost:32400/web (on the headless server running PMS):
 
