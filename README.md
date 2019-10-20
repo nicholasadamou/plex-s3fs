@@ -39,7 +39,7 @@ After your bucket is created, click on your name at the top right corner and fro
 
 [![xkcd: Automation](http://imgs.xkcd.com/comics/automation.png)](http://xkcd.com/1319/)
 
-Now, to install `plex-s3fs`, just run the snippet in `terminal`:
+Now, to install `plex-s3fs`, just run the snippet in `terminal` of the [Digital Ocean Droplet](https://www.digitalocean.com/products/droplets/):
 
 (⚠️ **DO NOT** run the `install` snippet if you don't fully
 understand [what it does](install.sh). Seriously, **DON'T**!)
