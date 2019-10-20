@@ -1,6 +1,6 @@
 # plex-s3fs 🎥🍿 [![Build Status](https://travis-ci.org/nicholasadamou/plex-s3fs.svg?branch=master)](https://travis-ci.org/nicholasadamou/plex-s3fs)
 
-A Plex Media Server install script that is backed by an Amazon S3 Bucket.
+A Plex Media Server that is backed by an Amazon S3 Bucket.
 
 [![License](https://img.shields.io/github/license/nicholasadamou/stockflight.svg?label=License&maxAge=86400)](./LICENSE)
 ![Say Thanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)
