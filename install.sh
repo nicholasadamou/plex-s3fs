@@ -50,7 +50,7 @@ main() {
 	fi
 
 	# Make the Amazon AWS S3 Bucket mount on boot.
-	payload="${bucket_name} ${mount_point} fuse.s3fs _netdev,allow_other 0 0"
+	payload="${bucket_name} ${mount_point} fuse.s3fs rw,nosuid,nodev,allow_other 0 0"
 	grep -Fq "${payload}" /etc/fstab || {
 		echo "${payload}" >> /etc/fstab
 	}
