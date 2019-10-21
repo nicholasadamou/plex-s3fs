@@ -35,22 +35,19 @@ main() {
 	secret_key_id=$(ask "Enter Amazon AWS Secret Key ID: ")
 	secret_key=$(ask "Enter Amazon AWS Secret Key: ")
 
-	# Write Amazon AWS Secret Key & ID to '$HOME/.passwd-s3fs'.
-	echo "${secret_key_id}:${secret_key}" > "$HOME/.passwd-s3fs"
+	# Write Amazon AWS Secret Key & ID to '/etc/passwd-s3fs'.
+	echo "${secret_key_id}:${secret_key}" > "/etc/passwd-s3fs"
 
-	# Change the permissions of '${HOME}/.passwd-s3fs'.
-	sudo chmod 600 "${HOME}/.passwd-s3fs"
-
-	# Determine where to mount the S3 Bucket to on the file-system.
-	mount_point="$(ask "Where do you want to mount the S3 Bucket to? (e.g. /mnt/Plex): ")"
+	# Change the permissions of '/etc/passwd-s3fs'.
+	sudo chmod 600 "/etc/passwd-s3fs"
 
 	# Make sure the mount point exists. If not, create it.
-	if ! [ -d "${mount_point}" ]; then
-		mkdir -p "${mount_point}"
+	if ! [ -d "/mnt/${bucket_name}" ]; then
+		mkdir -p "/mnt/${bucket_name}"
 	fi
 
 	# Make the Amazon AWS S3 Bucket mount on boot.
-	payload="s3fs#${bucket_name} ${mount_point} fuse _netdev,rw,nosuid,nodev,allow_other,nonempty 0 0"
+	payload="s3fs#${bucket_name} /mnt/${bucket_name} fuse _netdev,rw,nosuid,nodev,allow_other,nonempty 0 0"
 	grep -Fq "${payload}" /etc/fstab || {
 		echo "${payload}" >> /etc/fstab
 	}
@@ -59,7 +56,7 @@ main() {
 	mount -a
 
 	# Run 's3fs' on boot.
-	payload="@reboot s3fs ${bucket_name} ${mount_point} -o passwd_file=${HOME}/.passwd-s3fs"
+	payload="@reboot s3fs ${bucket_name} /mnt/${bucket_name} -o passwd_file=${HOME}/.passwd-s3fs"
 	grep -Fq "$payload" /etc/cron.d/s3fs || {
 		echo "${payload}" > /etc/cron.d/s3fs
 	}
