@@ -55,12 +55,6 @@ main() {
 	# Mount the S3 Bucket
 	mount -a
 
-	# Run 's3fs' on boot.
-	payload="@reboot s3fs ${bucket_name} /mnt/${bucket_name} -o passwd_file=${HOME}/.passwd-s3fs"
-	grep -Fq "$payload" /etc/cron.d/s3fs || {
-		echo "${payload}" > /etc/cron.d/s3fs
-	}
-
 	print_warning "We need to obtain the required claim token. To do this, you will  need to use ssh tunneling to gain access and setup the server for first run. During the first run, you setup Plex to make it available and configurable. However, this setup option will only be triggered if you access it over http://localhost:32400/web, it will not be triggered if you access it over http://ip_of_server:32400/web. Since we are setting up PMS (Plex Media Server) on a headless server, you can use a SSH tunnel to link http://localhost:32400/web (on your current computer) to http://localhost:32400/web (on the headless server running PMS) by executing: ssh username@ip_of_server -L 32400:ip_of_server:32400 -N"
 
 }
