@@ -30,8 +30,8 @@ main() {
 	bucket_name=$(ask "Enter Amazon AWS S3 Bucket Name: ")
 
 	# Obtain Amazon AWS Secret Key & ID.
-	secret_key_id=$(ask "Enter Amazon AWS Secret Key ID: ")
-	secret_key=$(ask "Enter Amazon AWS Secret Key: ")
+	ask "Enter Amazon AWS Secret Key ID: " ; secret_key_id=$(get_answer)
+	ask "Enter Amazon AWS Secret Key: " ; secret_key=$(get_answer)
 
 	# Write Amazon AWS Secret Key & ID to '/etc/passwd-s3fs'.
 	echo "${secret_key_id}:${secret_key}" > "/etc/passwd-s3fs"
