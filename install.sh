@@ -15,12 +15,10 @@ main() {
 	ask_for_sudo
 
 	# Update the system first.
-	execute \
-		"sudo apt update && \
-			sudo apt upgrade -y && \
-			sudo apt autoremove -y && \
-			sudo apt clean" \
-		"Debian (Install all available updates)"
+	sudo apt update && \
+		sudo apt upgrade -y && \
+		sudo apt autoremove -y && \
+		sudo apt clean
 
 	# Install Plex-Media-Server via Snap.
 	install_snap_package "plexmediaserver" "" "plexmediaserver"
