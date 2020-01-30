@@ -27,7 +27,7 @@ main() {
 	install_package "s3fs" "s3fs"
 
 	# Obtain Amazon AWS S3 Bucket Name.
-	bucket_name=$(ask "Enter Amazon AWS S3 Bucket Name: ")
+	ask "Enter Amazon AWS S3 Bucket Name: " ; bucket_name=$(get_answer)
 
 	# Obtain Amazon AWS Secret Key & ID.
 	ask "Enter Amazon AWS Secret Key ID: " ; secret_key_id=$(get_answer)
