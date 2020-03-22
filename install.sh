@@ -21,10 +21,10 @@ main() {
 		sudo apt clean
 
 	# Install Plex-Media-Server via Snap.
-	install_snap_package "plexmediaserver" "" "plexmediaserver"
+	install_snap_package "plexmediaserver"
 
 	# Install s3fs using APT.
-	install_package "s3fs" "s3fs"
+	install_package "s3fs"
 
 	# Obtain Amazon AWS S3 Bucket Name.
 	ask "Enter Amazon AWS S3 Bucket Name: " ; bucket_name=$(get_answer)
