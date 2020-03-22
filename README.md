@@ -1,4 +1,4 @@
-# plex-s3fs 🎥🍿 [![Build Status](https://travis-ci.org/nicholasadamou/plex-s3fs.svg?branch=master)](https://travis-ci.org/nicholasadamou/plex-s3fs)
+# plex-s3fs 🎥🍿
 
 A Plex Media Server that is backed by an Amazon S3 Bucket.
 
