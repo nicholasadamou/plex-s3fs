@@ -62,7 +62,7 @@ The creator of this repo is _not responsible_ if your machine ends up in a state
 
 ## License
 
-Copyright 2019 Nicholas Adamou
+Copyright Nicholas Adamou
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
