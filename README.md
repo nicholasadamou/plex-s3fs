@@ -11,7 +11,7 @@ A Plex Media Server that is backed by an Amazon S3 Bucket.
 
 A while back a good pal of mine introduced me to Plex. I started looking up stuff about it like its features, system requirements, and how it works, then before I know it, I had my own server set up to run 24/7! Having experience with Amazon AWS and Digital Ocean, I figured, it would be extremely simple to not only get a Plex Server up and running in the cloud, but also have my entire library of movies and TV shows backed up in the cloud as well through Amazon's S3 buckets. I choose Amazon S3 for my storage because of it's dirt cheap pricing and flexibility. Also, you don't have to use the root user, I did because I didn't know what I was doing with my first attempt and I just stuck with it. It is better if you create your own user with the sufficient privileges, but can be done however you desire. This doesn't have to be done through DigitalOcean. You can use any VPS you want, I used DigitalOcean because I was familiar with it.
 
-⚠️ _**Note**_: Before I start, I'm going to say that this is better for people with small libraries (under 500GB) due to Amazon S3's pricing, and if your are curious about pricing, look [here](http://calculator.s3.amazonaws.com/index.html) for Amazons official AWS pricing calculator.
+⚠️ _**Note**_: Before I start, I'm going to say that this is better for people with small libraries (under 500GB) due to Amazon S3's pricing, and if your are curious about pricing, see [Amazons official S3 pricing calculator](https://calculator.aws/#/createCalculator/S3).
 
 ## Getting Started
 
