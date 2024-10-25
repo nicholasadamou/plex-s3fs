@@ -3,7 +3,7 @@
 declare current_dir && \
     current_dir="$(dirname "${BASH_SOURCE[0]}")" && \
     cd "${current_dir}" && \
-    source <(curl -s "https://raw.githubusercontent.com/nicholasadamou/utilities/master/utilities.sh")
+    source <(curl -s "https://raw.githubusercontent.com/dotbrains/utilities/refs/heads/master/utilities.sh")
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
