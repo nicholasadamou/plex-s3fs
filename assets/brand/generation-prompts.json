@@ -1,6 +1,5 @@
 {
   "tool": "Built-in image generation",
-  "reference": "cinderwood-labs/popcorn",
   "mascots": [
     {
       "name": "plex-s3fs-cloud-logo",

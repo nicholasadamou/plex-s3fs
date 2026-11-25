@@ -6,7 +6,7 @@
 ![Plex](https://img.shields.io/badge/Plex-1C2230?logo=plex&logoColor=FFCC4D)
 ![Amazon S3](https://img.shields.io/badge/Amazon_S3-5EAD9B)
 ![s3fs](https://img.shields.io/badge/s3fs-F05B62)
-[![License](https://img.shields.io/github/license/nicholasadamou/plex-s3fs?label=License)](./LICENSE)
+[![License](https://img.shields.io/badge/License-PolyForm_Shield_1.0.0-F05B62)](./LICENSE)
 ![Say Thanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)
 
 A Plex Media Server that is backed by an Amazon S3 Bucket.
@@ -60,22 +60,33 @@ In order to properly configure our Plex server, we need to add the required clai
 
 `ssh username@ip_of_server -L 32400:localhost:32400 -N`
 
+## Local verification
+
+With Docker running, execute from the repository root:
+
+```sh
+./test/verify.sh
+```
+
+The command builds a Debian-based verification image with Bash and ShellCheck,
+then checks the installer and verification scripts. After the image is built,
+verification runs without network access in a read-only, unprivileged container.
+The build requires access to the Debian image and package repositories.
+
+Verification does not execute the installer, install Plex, mount S3, or access
+AWS credentials. Deployment behavior still needs to be checked on a configured
+server. Verification is local; no CI workflows are used.
+
 ## Liability
 
 The creator of this repo is _not responsible_ if your machine ends up in a state you are not happy with.
 
 ## License
 
-Copyright Nicholas Adamou
+Copyright © 2026 Nicholas Adamou.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+The project is licensed under [PolyForm Shield License 1.0.0](LICENSE),
+with Nicholas Adamou as the holder.
 
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+The original Apache license for earlier code is preserved in
+[LICENSES/Apache-2.0.txt](LICENSES/Apache-2.0.txt); see [NOTICE](NOTICE).

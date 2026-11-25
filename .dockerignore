@@ -1,0 +1,6 @@
+*
+!install.sh
+!test/
+!test/Dockerfile
+!test/main.sh
+!test/verify.sh
