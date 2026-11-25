@@ -32,7 +32,7 @@ this repository. Review their compatibility before each deployment.
 Object storage access has different latency and filesystem semantics from a
 local disk. Playback, scanning, seeking, cache behavior, mount recovery, and
 restart behavior must be tested with your media and server configuration.
-Keep independent backups. Neither successful mocked integration and static checks nor the architecture
+Keep independent backups. Neither successful local verification nor the architecture
 diagram proves deployment compatibility or estimates cloud cost.
 
 See [getting started](getting-started.md) for deployment preparation and

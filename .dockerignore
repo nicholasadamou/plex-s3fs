@@ -1,8 +1,5 @@
-.git
-node_modules
-.flox/run
-.flox/cache
-.flox/lib
-.flox/log
-assets/brand/*.png
-assets/brand/*.jpg
+*
+!Dockerfile
+!.dockerignore
+!install.sh
+!test.sh

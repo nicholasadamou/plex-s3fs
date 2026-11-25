@@ -8,8 +8,6 @@
 ![s3fs](https://img.shields.io/badge/s3fs-F05B62?labelColor=1C2230)
 [![License](https://img.shields.io/badge/License-PolyForm_Shield_1.0.0-F05B62?labelColor=1C2230)](./LICENSE)
 [![Local verification](https://img.shields.io/badge/verification-local_Docker-5EAD9B?labelColor=1C2230)](docs/development.md)
-![Bun](https://img.shields.io/badge/Bun-1.3.11-1C2230?logo=bun&logoColor=FFF4D6&labelColor=1C2230)
-![Flox](https://img.shields.io/badge/Flox-dev_environment-5EAD9B?labelColor=1C2230)
 ![Say Thanks](https://img.shields.io/badge/say-thanks-FFCC4D?labelColor=1C2230)
 
 A Plex Media Server backed by an Amazon S3 bucket through s3fs.
@@ -25,25 +23,15 @@ Plex access to the mount require server-specific validation.
 - [Getting started](docs/getting-started.md): prerequisites, reviewed installation,
   and headless server setup.
 - [Architecture](docs/architecture.md): media flow, installer behavior, and limitations.
-- [Local development](docs/development.md): Flox, Docker checks, and pre-commit.
+- [Local verification](docs/development.md): a small Docker check with safe system mocks.
 - [Brand assets](assets/brand/README.md): logo, palette, and usage.
 
 ## Local verification
 
-With Docker running:
-
-```sh
-flox activate -- ./test/verify.sh
-```
-
-Or run `./test/verify.sh` directly. The full local pipeline checks shell syntax,
-ShellCheck, mocked installer integration, Markdown, Mermaid rendering, negative
-controls, and a 350-line
-handwritten code/config budget. No hosted CI service is configured.
-
-Integration tests execute the real installer inside Docker with fail-closed
-system mocks and fake credentials. They never install Plex, mount S3, or contact
-AWS. See the [verification scope](docs/development.md) before deploying.
+The repository has one Dockerfile and one verification script. See
+[local verification](docs/development.md) for the two Docker commands.
+The checks lint the shell scripts and run the installer with isolated system
+mocks and fake credentials. No hosted CI is configured.
 
 ## Liability
 

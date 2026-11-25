@@ -1,12 +1,32 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
+if [[ $EUID == 0 || ! -d /app || -w /app || -e /var/run/docker.sock ]]; then
+    printf 'Run verification in the restricted Docker container documented in docs/development.md.\n' >&2
+    exit 1
+fi
+shellcheck install.sh test.sh
 trap 'printf "Integration assertion failed at line %s\n" "$LINENO" >&2' ERR
 export FIXTURE
 FIXTURE=$(mktemp -d)
 trap 'rm -rf "$FIXTURE"' EXIT
 mkdir "$FIXTURE/bin"
 ln -s /usr/bin/grep "$FIXTURE/bin/"
-source test/mocks.sh
+# These exported functions intercept subprocess dependencies; PATH has no fallbacks.
+sudo() {
+    # Fixtures use whitespace-free arguments; reject merged argument boundaries.
+    local argument
+    for argument; do [[ $argument != *[[:space:]]* ]] || return 92; done
+    printf '%s\n' "$*" >> "$FIXTURE/commands"
+    [[ ${FAIL_COMMAND:-} != "$*" ]] || return 23
+    case "$*" in
+        '-v'|'apt update'|'apt upgrade -y'|'apt autoremove -y'|'apt clean'|'apt install -y s3fs'|'snap install plexmediaserver'|'mount -a') ;;
+        "tee $PLEX_S3FS_ROOT/etc/passwd-s3fs"|"tee -a $PLEX_S3FS_ROOT/etc/fstab") /usr/bin/tee "${@:2}" ;;
+        "chmod 600 $PLEX_S3FS_ROOT/etc/passwd-s3fs") /usr/bin/chmod "${@:2}" ;;
+        "mkdir -p $PLEX_S3FS_ROOT/mnt/media") /usr/bin/mkdir "${@:2}" ;;
+        *) printf 'Unexpected privileged command\n' >&2; return 92 ;;
+    esac
+}
+export -f sudo
 export PLEX_S3FS_ROOT="$FIXTURE/root"
 reset() {
     rm -rf "$PLEX_S3FS_ROOT"
