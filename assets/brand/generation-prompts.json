@@ -1,0 +1,32 @@
+{
+  "tool": "Built-in image generation",
+  "reference": "cinderwood-labs/popcorn",
+  "mascots": [
+    {
+      "name": "plex-s3fs-cloud-logo",
+      "prompt": "Create the final standalone mascot logo for plex-s3fs with a much stronger Popcorn brand feel. The input images are STYLE REFERENCES ONLY: borrow soft creamy fluffy shapes, very expressive big happy glossy eyes, open smiling mouth, playful sculpted 3D illustration, warm cinema lighting and tactile premium indie developer charm. Do not copy the popcorn tub mascot or wordmark. Original project metaphor is CLOUD STORAGE + MOVIE LIBRARY. Design an adorable warm-cream fluffy CLOUD character with a face, emerging from an open midnight-blue rounded storage/archive box. The front of the box has one simple buttery-gold play triangle and a slim teal storage-status light. A little cloud arm holds a small coral-red and cream movie clapperboard on the right; a short gently curling filmstrip peeks from the box on the left. Cloud is soft clustered pillows, NOT popcorn kernels. Cloud dominates the silhouette with enormous joyful eyes and rosy cheeks; the dark storage box is its lower third. Small bright gold accent rays only close to body. Colors cream #FFF4D6, coral #F05B62, butter gold #FFCC4D, midnight #1C2230, muted teal #5EAD9B. Friendly, magical, tactile, smiling movie-night companion. No amber robot, no server face, no square TV. One isolated full-color mascot logo on TRUE TRANSPARENT background. No letters, no words, no wordmark, no background tile, no ground shadow, no unrelated floating elements, no Plex corporate chevron or Amazon marks. Clear silhouette, generous transparent margin, high-end illustration matching reference polish.",
+      "references": [
+        "full-logo.png",
+        "brand-board.png"
+      ]
+    }
+  ],
+  "production": [
+    {
+      "name": "plex-s3fs-production-social",
+      "prompt": "Create a finished 2:1 horizontal social preview for plex-s3fs, ideally 1280x640. Input1 is FINAL APPROVED LOGO: faithfully reuse that exact happy warm-cream fluffy CLOUD emerging from a midnight archive/storage box, gold play triangle, teal status light, coral clapperboard and little filmstrip. Preserve its face and original identity; no amber robot. Input2 is style reference for Popcorn playful sculpted cream bubble lettering with vivid red edging, large joyful tactile 3D mascot, cinematic dark backdrop and restrained golden accents. Use this close warm playful feel while keeping project logo from input1. Layout: the approved cloud mascot large on LEFT, entirely inside safe inset, roughly 36% width. On RIGHT a very large friendly rounded custom cream wordmark exactly \"plex-s3fs\", thick coral-red dimensional edge and buttery warm highlights. Under wordmark tagline exactly \"Your media. Backed by S3.\" and smaller line \"Plex \u00b7 S3 \u00b7 s3fs\". Deep midnight #1C2230 background with subtle warm amber atmosphere behind mascot, a few small gold rays and soft film shapes near edges, no popcorn kernels. Large crisp typography, mascot logo present prominently and consistently. Joyful, warm, cinematic, premium indie open-source brand. No collage, no mockup frame, no corporate Plex/Amazon marks, no badges, no extra text, no URL. All artwork and text inside 6% margins, no clipped wordmark or limbs. Opaque background.",
+      "references": [
+        "logo.png",
+        "social-preview.png"
+      ]
+    },
+    {
+      "name": "plex-s3fs-production-board",
+      "prompt": "Create a finished premium brand-kit presentation board for plex-s3fs, landscape 4:3, 3x3 editorial grid with strong gutters, clear rhythm and restrained density. Input1 is FINAL APPROVED LOGO and must be faithfully repeated: joyful fluffy cream CLOUD rising from midnight-blue open archive box, gold play triangle, teal status light, coral clapperboard and curled filmstrip. No amber robot. Input2 is strong STYLE reference only for Popcorn sculpted cream bubble lettering with coral/red dimensional outline, cheerful tactile 3D mascot, warm cinematic atmosphere, quality of playful indie developer identity. All panels original cloud mascot and exact plex-s3fs wordmark. Midnight #1C2230, coral #F05B62, butter #FFCC4D, cream #FFF4D6, small teal #5EAD9B highlights. Panels: large logo cover cloud mascot + cream coral-edged plex-s3fs wordmark; clear-space logo diagram; social-card application mascot left wordmark right; large exact tagline \"Your media. Backed by S3.\"; palette chips labeled MIDNIGHT, CORAL, BUTTER, CREAM; typography panel large Aa and labels Plus Jakarta Sans / JetBrains Mono; avatar application with same cloud; cinematic close crop of cloud smile and clapperboard; README header with small cloud beside project name and banner beneath. Sparse readable typography, generous negative space, polished coherent brand identity board, logo visible throughout. No dense fake UI, no popcorn kernels/tub, no corporate Plex/Amazon marks, no unrelated shapes. Keep Popcorn feel but original cloud cinema identity.",
+      "references": [
+        "logo.png",
+        "social-preview.png"
+      ]
+    }
+  ]
+}

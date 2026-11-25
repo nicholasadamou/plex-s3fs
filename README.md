@@ -1,9 +1,15 @@
-# plex-s3fs 🎥🍿
+# <img src="assets/brand/logo.png" alt="" height="64" /> plex-s3fs
+
+<img src="assets/brand/social-preview.png" alt="plex-s3fs — your media, backed by S3, with a cloud-and-cinema mascot" width="1280" />
+
+![Shell](https://img.shields.io/badge/Shell-1C2230?logo=gnubash&logoColor=white)
+![Plex](https://img.shields.io/badge/Plex-1C2230?logo=plex&logoColor=FFCC4D)
+![Amazon S3](https://img.shields.io/badge/Amazon_S3-5EAD9B)
+![s3fs](https://img.shields.io/badge/s3fs-F05B62)
+[![License](https://img.shields.io/github/license/nicholasadamou/plex-s3fs?label=License)](./LICENSE)
+![Say Thanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)
 
 A Plex Media Server that is backed by an Amazon S3 Bucket.
-
-[![License](https://img.shields.io/github/license/nicholasadamou/stockflight.svg?label=License&maxAge=86400)](./LICENSE)
-![Say Thanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)
 
 ---
 
