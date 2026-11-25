@@ -1,0 +1,8 @@
+schema-version = "1.19.0"
+
+[install]
+bun.pkg-path = "bun"
+pre-commit.pkg-path = "pre-commit"
+
+[options]
+systems = ["aarch64-darwin", "x86_64-darwin", "aarch64-linux", "x86_64-linux"]

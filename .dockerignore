@@ -1,6 +1,8 @@
-*
-!install.sh
-!test/
-!test/Dockerfile
-!test/main.sh
-!test/verify.sh
+.git
+node_modules
+.flox/run
+.flox/cache
+.flox/lib
+.flox/log
+assets/brand/*.png
+assets/brand/*.jpg
