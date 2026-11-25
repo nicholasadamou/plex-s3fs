@@ -22,7 +22,8 @@ flowchart TD
     Verify --> Build[Build Docker image]
     Build --> Offline[Offline unprivileged container]
     Offline --> Shell[Bash syntax and ShellCheck]
-    Shell --> Markdown[Markdown lint]
+    Shell --> Integration[Actual installer with isolated system mocks]
+    Integration --> Markdown[Markdown lint]
     Markdown --> Mermaid[Render Mermaid with Chromium]
     Mermaid --> Controls[Negative controls and LOC budget]
 ```
@@ -30,14 +31,25 @@ flowchart TD
 ## What is checked
 
 - Every repository shell script gets Bash syntax and ShellCheck analysis.
+- The real `install.sh` entry point runs inside Docker against a private fixture
+  tree. Its normal curl import loads the fixture helper contract; exported mocks
+  allow only exact expected curl and sudo arguments. A private PATH has no
+  fallbacks for system commands. Unexpected calls fail closed.
+- Integration assertions inspect actual credential bytes and mode `0600`,
+  fstab bytes, mount-directory creation, the exact ordered command sequence,
+  repeat-run idempotence, and absence of fake credentials from captured output
+  and command logs. Injected retrieval, sudo, package installation, credential
+  write/mode, directory creation, fstab write, and mount failures must abort
+  nonzero before later commands. Empty or broken helper downloads abort before
+  sudo; empty bucket or credential values abort before filesystem writes.
 - Every Markdown document, including the brand README, gets markdownlint-cli2
   checks. Long prose lines are allowed; inline HTML is restricted to images.
 - Mermaid CLI reads Markdown directly and renders fenced diagrams as SVGs using
   Chromium. Invalid diagrams fail through the actual Mermaid parser.
 - Deliberately invalid shell, Markdown, and Mermaid fixtures must be rejected.
 - All source and configuration files copied into the image must fit
-  within 250 nonblank lines. This includes the legacy installer, verification
-  scripts, Dockerfile, package manifest, lint/browser/hook/Flox configuration,
+  within 350 nonblank lines. This includes the legacy installer, verification
+  scripts and integration mocks/fixtures, Dockerfile, package manifest, lint/browser/hook/Flox configuration,
   and ignore rules, plus any future source/config files. Generated `*.lock` files,
   Markdown, `docs/`, `assets/`, `LICENSES/`, `LICENSE`, and `NOTICE` are excluded.
 
@@ -49,10 +61,19 @@ capabilities, or a writable root filesystem. A size-limited `/tmp` tmpfs holds
 Chromium profiles, negative fixtures, and rendered diagrams, which are discarded
 at exit. Chromium's internal sandbox is disabled inside this restricted container.
 
-The checks do not execute `install.sh`, fetch its remote utilities, install Plex,
-contact AWS, mount S3, validate live IAM policies, or test playback. They are
-local static and documentation checks, not proof of deployment compatibility.
-There are no hosted CI workflows.
+The installer now stops on failed commands and checked helper downloads. It
+creates mount directories with sudo and matches complete fstab lines for reruns.
+`PLEX_S3FS_ROOT` optionally prefixes filesystem paths to stage configuration;
+it does not disable package installation or mounting. Only the Docker test
+harness supplies the fail-closed mocks. Never use the staging prefix as a
+standalone dry-run option on your host.
+
+Integration executes the production installer, but remote utilities are represented
+by a contract fixture rather than downloaded or tested. Package installation and
+mounting are mocked; real file writes happen only in the private `/tmp` tree with
+fake credentials. The suite does not install Plex, contact AWS, mount S3, validate
+live IAM policies, or test playback. Actual Ubuntu/Snap/FUSE behavior and cloud
+permissions still require deployment testing. There are no hosted CI workflows.
 
 ## Update documentation tools
 

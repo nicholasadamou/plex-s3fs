@@ -25,9 +25,7 @@ The remote utilities are fetched at runtime and are not pinned. The installer
 upgrades packages, installs software, writes credentials and persistent mounts,
 and runs `mount -a`. Back up the server configuration first.
 
-The legacy installer also creates `/mnt/<bucket>` without sudo, so that directory
-must already exist with suitable ownership when running as a regular user.
-Verify FUSE `allow_other` configuration and Plex Snap access to the mount.
+The installer creates `/mnt/<bucket>` with sudo. Verify its ownership and FUSE `allow_other` configuration and Plex Snap access to the mount.
 Do not assume installing the Snap makes the S3 directory readable by Plex.
 
 On the prepared server, after reviewing and adapting the script:

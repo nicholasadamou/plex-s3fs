@@ -17,7 +17,8 @@ flowchart LR
 
 `install.sh` loads shared utilities over HTTPS, obtains sudo access, upgrades
 APT packages, installs Plex and s3fs, and asks for a bucket and credentials.
-It writes `/etc/passwd-s3fs`, prepares `/mnt/<bucket>`, adds a matching fstab
+It stops on failed commands, writes `/etc/passwd-s3fs` with private permissions,
+prepares `/mnt/<bucket>` with sudo, adds a matching complete fstab
 entry if absent, and invokes `mount -a` for all configured filesystems.
 
 The script does not provision a bucket, define IAM policies, configure every
@@ -30,7 +31,7 @@ independently of this repository. Review them before each deployment.
 Object storage access has different latency and filesystem semantics from a
 local disk. Playback, scanning, seeking, cache behavior, mount recovery, and
 restart behavior must be tested with your media and server configuration.
-Keep independent backups. Neither successful static checks nor the architecture
+Keep independent backups. Neither successful mocked integration and static checks nor the architecture
 diagram proves deployment compatibility or estimates cloud cost.
 
 See [getting started](getting-started.md) for deployment preparation and

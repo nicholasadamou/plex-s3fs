@@ -7,6 +7,7 @@ mapfile -d '' scripts < <(find . -path ./node_modules -prune -o -name '*.sh' -pr
 for script in "${scripts[@]}"; do bash -n "$script"; done
 # The installer sources remote utilities; static analysis must stay offline.
 shellcheck --exclude=SC1090 "${scripts[@]}"
+bash test/integration.sh
 markdownlint-cli2 '**/*.md' '#node_modules'
 while IFS= read -r -d '' document; do
     output="/tmp/rendered/${document#./}"
@@ -38,6 +39,6 @@ mapfile -d '' sources < <(find . \
     \( -path ./node_modules -o -path ./assets -o -path ./docs -o -path ./LICENSES \) -prune -o \
     -type f ! -name '*.md' ! -name '*.lock' ! -name LICENSE ! -name NOTICE -print0)
 lines=$(cat "${sources[@]}" | awk 'NF { count++ } END { print count }')
-printf 'Handwritten verification/code/config: %s / 250 nonblank lines\n' "$lines"
-(( lines <= 250 ))
-printf 'Shell, Markdown, Mermaid rendering, negative controls, and LOC budget passed.\n'
+printf 'Handwritten verification/code/config: %s / 350 nonblank lines\n' "$lines"
+(( lines <= 350 ))
+printf 'Shell, Markdown, Mermaid rendering, installer integration, negative controls, and LOC budget passed.\n'

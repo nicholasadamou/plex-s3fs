@@ -1,10 +1,16 @@
 #!/bin/bash
 # Modified in 2026: apply privileged writes to credentials and fstab.
 
-declare current_dir && \
-    current_dir="$(dirname "${BASH_SOURCE[0]}")" && \
-    cd "${current_dir}" && \
-    source <(curl -s "https://example.invalid/retired-helper.sh")
+set -euo pipefail
+umask 077
+current_dir="$(dirname "${BASH_SOURCE[0]}")"
+cd "$current_dir"
+utilities=$(curl -fsS "https://example.invalid/retired-helper.sh")
+[[ -n $utilities ]] || { printf 'Empty helper download\n' >&2; exit 1; }
+# shellcheck disable=SC1091 # The checked download is sourced at runtime.
+source /dev/stdin <<< "$utilities"
+# Optional filesystem prefix supports staging configuration before deployment.
+root="${PLEX_S3FS_ROOT:-}"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -16,10 +22,10 @@ main() {
 	ask_for_sudo
 
 	# Update the system first.
-	sudo apt update && \
-		sudo apt upgrade -y && \
-		sudo apt autoremove -y && \
-		sudo apt clean
+	sudo apt update
+	sudo apt upgrade -y
+	sudo apt autoremove -y
+	sudo apt clean
 
 	# Install Plex-Media-Server via Snap.
 	install_snap_package "plexmediaserver"
@@ -34,21 +40,26 @@ main() {
 	ask "Enter Amazon AWS Secret Key ID: " ; secret_key_id=$(get_answer)
 	ask "Enter Amazon AWS Secret Key: " ; secret_key=$(get_answer)
 
+	if [[ -z $bucket_name || -z $secret_key_id || -z $secret_key ]]; then
+		printf 'Bucket and credential values must not be empty\n' >&2
+		exit 1
+	fi
+
 	# Write Amazon AWS Secret Key & ID to '/etc/passwd-s3fs'.
-	printf '%s:%s\n' "$secret_key_id" "$secret_key" | sudo tee /etc/passwd-s3fs > /dev/null
+	printf '%s:%s\n' "$secret_key_id" "$secret_key" | sudo tee "$root/etc/passwd-s3fs" > /dev/null
 
 	# Change the permissions of '/etc/passwd-s3fs'.
-	sudo chmod 600 "/etc/passwd-s3fs"
+	sudo chmod 600 "$root/etc/passwd-s3fs"
 
 	# Make sure the mount point exists. If not, create it.
-	if ! [ -d "/mnt/${bucket_name}" ]; then
-		mkdir -p "/mnt/${bucket_name}"
+	if ! [ -d "$root/mnt/${bucket_name}" ]; then
+		sudo mkdir -p "$root/mnt/${bucket_name}"
 	fi
 
 	# Make the Amazon AWS S3 Bucket mount on boot.
 	payload="s3fs#${bucket_name} /mnt/${bucket_name} fuse _netdev,rw,nosuid,nodev,allow_other,nonempty 0 0"
-	grep -Fq "${payload}" /etc/fstab || {
-		printf '%s\n' "$payload" | sudo tee -a /etc/fstab > /dev/null
+	grep -Fxq -- "${payload}" "$root/etc/fstab" || {
+		printf '%s\n' "$payload" | sudo tee -a "$root/etc/fstab" > /dev/null
 	}
 	
 	# Mount the S3 Bucket

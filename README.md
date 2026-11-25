@@ -2,15 +2,15 @@
 
 <img src="assets/brand/social-preview.png" alt="plex-s3fs — your media, backed by S3, with a cloud-and-cinema mascot" width="1280" />
 
-![Shell](https://img.shields.io/badge/Shell-1C2230?logo=gnubash&logoColor=white)
-![Plex](https://img.shields.io/badge/Plex-1C2230?logo=plex&logoColor=FFCC4D)
-![Amazon S3](https://img.shields.io/badge/Amazon_S3-5EAD9B)
-![s3fs](https://img.shields.io/badge/s3fs-F05B62)
-[![License](https://img.shields.io/badge/License-PolyForm_Shield_1.0.0-F05B62)](./LICENSE)
-[![Local verification](https://img.shields.io/badge/verification-local_Docker-5EAD9B)](docs/development.md)
-![Bun](https://img.shields.io/badge/Bun-1.3.11-1C2230?logo=bun)
-![Flox](https://img.shields.io/badge/Flox-dev_environment-5EAD9B)
-![Say Thanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)
+![Shell](https://img.shields.io/badge/Shell-1C2230?logo=gnubash&logoColor=FFF4D6&labelColor=1C2230)
+![Plex](https://img.shields.io/badge/Plex-1C2230?logo=plex&logoColor=FFCC4D&labelColor=1C2230)
+![Amazon S3](https://img.shields.io/badge/Amazon_S3-5EAD9B?labelColor=1C2230)
+![s3fs](https://img.shields.io/badge/s3fs-F05B62?labelColor=1C2230)
+[![License](https://img.shields.io/badge/License-PolyForm_Shield_1.0.0-F05B62?labelColor=1C2230)](./LICENSE)
+[![Local verification](https://img.shields.io/badge/verification-local_Docker-5EAD9B?labelColor=1C2230)](docs/development.md)
+![Bun](https://img.shields.io/badge/Bun-1.3.11-1C2230?logo=bun&logoColor=FFF4D6&labelColor=1C2230)
+![Flox](https://img.shields.io/badge/Flox-dev_environment-5EAD9B?labelColor=1C2230)
+![Say Thanks](https://img.shields.io/badge/say-thanks-FFCC4D?labelColor=1C2230)
 
 A Plex Media Server backed by an Amazon S3 bucket through s3fs.
 
@@ -36,11 +36,13 @@ flox activate -- ./test/verify.sh
 ```
 
 Or run `./test/verify.sh` directly. The full local pipeline checks shell syntax,
-ShellCheck, Markdown, Mermaid rendering, negative controls, and a 250-line
+ShellCheck, mocked installer integration, Markdown, Mermaid rendering, negative
+controls, and a 350-line
 handwritten code/config budget. No hosted CI service is configured.
 
-Verification never executes the installer, installs Plex, mounts S3, or uses
-AWS credentials. See the [verification scope](docs/development.md) before deploying.
+Integration tests execute the real installer inside Docker with fail-closed
+system mocks and fake credentials. They never install Plex, mount S3, or contact
+AWS. See the [verification scope](docs/development.md) before deploying.
 
 ## Liability
 
