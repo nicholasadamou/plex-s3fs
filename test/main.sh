@@ -5,8 +5,7 @@ export PATH="$PWD/node_modules/.bin:$PATH"
 
 mapfile -d '' scripts < <(find . -path ./node_modules -prune -o -name '*.sh' -print0)
 for script in "${scripts[@]}"; do bash -n "$script"; done
-# The installer sources remote utilities; static analysis must stay offline.
-shellcheck --exclude=SC1090 "${scripts[@]}"
+shellcheck "${scripts[@]}"
 bash test/integration.sh
 markdownlint-cli2 '**/*.md' '#node_modules'
 while IFS= read -r -d '' document; do

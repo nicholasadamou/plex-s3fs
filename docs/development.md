@@ -32,16 +32,17 @@ flowchart TD
 
 - Every repository shell script gets Bash syntax and ShellCheck analysis.
 - The real `install.sh` entry point runs inside Docker against a private fixture
-  tree. Its normal curl import loads the fixture helper contract; exported mocks
-  allow only exact expected curl and sudo arguments. A private PATH has no
-  fallbacks for system commands. Unexpected calls fail closed.
+  tree. Fake input reaches the actual Bash `read` prompts through stdin; no
+  prompt functions are replaced. An exported sudo mock allows only exact
+  expected arguments. A private PATH has no fallbacks for system or network
+  commands. Unexpected calls and merged argument boundaries fail closed.
 - Integration assertions inspect actual credential bytes and mode `0600`,
   fstab bytes, mount-directory creation, the exact ordered command sequence,
   repeat-run idempotence, and absence of fake credentials from captured output
-  and command logs. Injected retrieval, sudo, package installation, credential
-  write/mode, directory creation, fstab write, and mount failures must abort
-  nonzero before later commands. Empty or broken helper downloads abort before
-  sudo; empty bucket or credential values abort before filesystem writes.
+  and command logs. Injected sudo, APT/Snap installation, credential write/mode,
+  directory creation, fstab write, and mount failures must abort nonzero before
+  later commands. Empty bucket/credential values and EOF at each prompt abort
+  before sudo or filesystem writes.
 - Every Markdown document, including the brand README, gets markdownlint-cli2
   checks. Long prose lines are allowed; inline HTML is restricted to images.
 - Mermaid CLI reads Markdown directly and renders fenced diagrams as SVGs using
@@ -61,16 +62,15 @@ capabilities, or a writable root filesystem. A size-limited `/tmp` tmpfs holds
 Chromium profiles, negative fixtures, and rendered diagrams, which are discarded
 at exit. Chromium's internal sandbox is disabled inside this restricted container.
 
-The installer now stops on failed commands and checked helper downloads. It
-creates mount directories with sudo and matches complete fstab lines for reruns.
+The installer uses Bash input/output and direct system commands without a
+network bootstrap. It stops on failed commands, creates mount directories with sudo and matches complete fstab lines for reruns.
 `PLEX_S3FS_ROOT` optionally prefixes filesystem paths to stage configuration;
 it does not disable package installation or mounting. Only the Docker test
 harness supplies the fail-closed mocks. Never use the staging prefix as a
 standalone dry-run option on your host.
 
-Integration executes the production installer, but remote utilities are represented
-by a contract fixture rather than downloaded or tested. Package installation and
-mounting are mocked; real file writes happen only in the private `/tmp` tree with
+Integration executes the production installer. Package installation and mounting
+are mocked; real file writes happen only in the private `/tmp` tree with
 fake credentials. The suite does not install Plex, contact AWS, mount S3, validate
 live IAM policies, or test playback. Actual Ubuntu/Snap/FUSE behavior and cloud
 permissions still require deployment testing. There are no hosted CI workflows.

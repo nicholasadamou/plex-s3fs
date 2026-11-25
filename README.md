@@ -14,8 +14,9 @@
 
 A Plex Media Server backed by an Amazon S3 bucket through s3fs.
 
-This legacy Bash installer configures an Ubuntu host, installs Plex through
-Snap, and adds an S3 filesystem mount. Review the deployment prerequisites
+This Bash installer configures an Ubuntu host, installs Plex through Snap,
+and adds an S3 filesystem mount. It uses standard system commands without
+downloading shell helpers. Review the deployment prerequisites
 before running it: current Ubuntu, Snap confinement, FUSE permissions, and
 Plex access to the mount require server-specific validation.
 

@@ -5,8 +5,7 @@ export FIXTURE
 FIXTURE=$(mktemp -d)
 trap 'rm -rf "$FIXTURE"' EXIT
 mkdir "$FIXTURE/bin"
-ln -s /usr/bin/dirname /usr/bin/grep "$FIXTURE/bin/"
-cp test/utilities.sh "$FIXTURE/utilities.sh"
+ln -s /usr/bin/grep "$FIXTURE/bin/"
 source test/mocks.sh
 export PLEX_S3FS_ROOT="$FIXTURE/root"
 reset() {
@@ -14,8 +13,9 @@ reset() {
     mkdir -p "$PLEX_S3FS_ROOT/etc"
     printf '# preserved\n' > "$PLEX_S3FS_ROOT/etc/fstab"
     : > "$FIXTURE/commands"
+    printf 'media\nfixture-id\nfixture-secret\n' > "$FIXTURE/input"
 }
-run() { PATH="$FIXTURE/bin" /bin/bash "$PWD/install.sh" > "$FIXTURE/output" 2>&1; }
+run() { PATH="$FIXTURE/bin" /bin/bash "$PWD/install.sh" < "$FIXTURE/input" > "$FIXTURE/output" 2>&1; }
 private_output() {
     if grep -Eq 'fixture-id|fixture-secret' "$FIXTURE/output" "$FIXTURE/commands"; then
         printf 'Credential leaked into captured output or command log\n' >&2
@@ -35,7 +35,7 @@ apt upgrade -y
 apt autoremove -y
 apt clean
 snap install plexmediaserver
-apt install s3fs
+apt install -y s3fs
 tee $PLEX_S3FS_ROOT/etc/passwd-s3fs
 chmod 600 $PLEX_S3FS_ROOT/etc/passwd-s3fs
 mkdir -p $PLEX_S3FS_ROOT/mnt/media
@@ -49,37 +49,27 @@ run
 cmp "$FIXTURE/expected-fstab" "$PLEX_S3FS_ROOT/etc/fstab"
 if grep -Eq 'mkdir|tee -a' "$FIXTURE/commands"; then exit 1; fi
 private_output
-for failure in "chmod 600 $PLEX_S3FS_ROOT/etc/passwd-s3fs" curl '-v' 'apt update' 'apt upgrade -y' 'apt autoremove -y' 'apt clean' 'snap install plexmediaserver' 'apt install s3fs' "tee $PLEX_S3FS_ROOT/etc/passwd-s3fs" "mkdir -p $PLEX_S3FS_ROOT/mnt/media" "tee -a $PLEX_S3FS_ROOT/etc/fstab" 'mount -a'; do
+for failure in "chmod 600 $PLEX_S3FS_ROOT/etc/passwd-s3fs" '-v' 'apt update' 'apt upgrade -y' 'apt autoremove -y' 'apt clean' 'snap install plexmediaserver' 'apt install -y s3fs' "tee $PLEX_S3FS_ROOT/etc/passwd-s3fs" "mkdir -p $PLEX_S3FS_ROOT/mnt/media" "tee -a $PLEX_S3FS_ROOT/etc/fstab" 'mount -a'; do
     reset
     if FAIL_COMMAND="$failure" run; then printf 'Failure did not abort: %s\n' "$failure" >&2; exit 1; fi
     private_output
     [[ $failure == 'mount -a' ]] || ! grep -Fxq 'mount -a' "$FIXTURE/commands"
-    if [[ $failure == curl ]]; then
-        [[ ! -s "$FIXTURE/commands" ]]
-        [[ ! -e "$PLEX_S3FS_ROOT/etc/passwd-s3fs" ]]
-    else
-        [[ $(tail -n 1 "$FIXTURE/commands") == "$failure" ]]
-    fi
+    [[ $(tail -n 1 "$FIXTURE/commands") == "$failure" ]]
 done
-for variable in TEST_BUCKET TEST_KEY_ID TEST_SECRET; do
+# Empty fields and EOF at each prompt must fail before sudo or filesystem writes.
+for input in '\nfixture-id\nfixture-secret\n' 'media\n\nfixture-secret\n' 'media\nfixture-id\n\n' '' 'media\n' 'media\nfixture-id\n'; do
     reset
-    export "$variable="
-    if run; then printf 'Empty input accepted: %s\n' "$variable" >&2; exit 1; fi
-    unset "$variable"
+    printf '%b' "$input" > "$FIXTURE/input"
+    if run; then printf 'Invalid input accepted\n' >&2; exit 1; fi
+    [[ ! -s "$FIXTURE/commands" ]]
     [[ ! -e "$PLEX_S3FS_ROOT/etc/passwd-s3fs" ]]
     [[ ! -d "$PLEX_S3FS_ROOT/mnt/media" ]]
     private_output
-    [[ $(tail -n 1 "$FIXTURE/commands") == 'apt install s3fs' ]]
 done
 reset
 if { sudo unexpected-command; } > "$FIXTURE/output" 2>&1; then exit 1; fi
-if PATH="$FIXTURE/bin" /bin/bash -c 'apt update' > "$FIXTURE/output" 2>&1; then exit 1; fi
-if curl https://unexpected.invalid > "$FIXTURE/output" 2>&1; then exit 1; fi
-for helper in '' false; do
-    reset
-    printf '%s' "$helper" > "$FIXTURE/utilities.sh"
-    if run; then printf 'Broken helper import did not abort\n' >&2; exit 1; fi
-    [[ ! -s "$FIXTURE/commands" ]]
-    private_output
+if { sudo apt 'upgrade -y'; } > "$FIXTURE/output" 2>&1; then exit 1; fi
+for command in 'apt update' 'curl https://unexpected.invalid' 'snap install plexmediaserver' 'mount -a'; do
+    if PATH="$FIXTURE/bin" /bin/bash -c "$command" > "$FIXTURE/output" 2>&1; then exit 1; fi
 done
 printf 'Actual installer integration passed: files, modes, commands, rerun, and failure aborts.\n'

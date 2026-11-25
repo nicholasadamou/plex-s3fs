@@ -19,11 +19,15 @@ and credential rotation process before deployment.
 
 ## Review and install
 
-Clone this repository and read `install.sh` and its remotely sourced
-[utilities](https://example.invalid/retired-helper.sh
-The remote utilities are fetched at runtime and are not pinned. The installer
-upgrades packages, installs software, writes credentials and persistent mounts,
-and runs `mount -a`. Back up the server configuration first.
+Clone this repository and read `install.sh`. It uses Bash and standard system
+commands directly, without downloading or importing another shell script. It
+reads the bucket and credentials before requesting sudo access; both credential
+prompts hide typed input. Empty values and interrupted input abort before changes.
+
+The installer then upgrades packages, installs Plex with `snap install` and s3fs
+with `apt install -y`, writes credentials and persistent mounts, and runs
+`mount -a`. Package managers still require their normal repository access.
+Back up the server configuration first.
 
 The installer creates `/mnt/<bucket>` with sudo. Verify its ownership and FUSE `allow_other` configuration and Plex Snap access to the mount.
 Do not assume installing the Snap makes the S3 directory readable by Plex.

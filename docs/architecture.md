@@ -15,16 +15,17 @@ flowchart LR
 
 ## Installer behavior
 
-`install.sh` loads shared utilities over HTTPS, obtains sudo access, upgrades
-APT packages, installs Plex and s3fs, and asks for a bucket and credentials.
+`install.sh` reads a bucket and credentials with Bash builtins, validates that
+all values are present, obtains sudo access, upgrades APT packages, and installs
+Plex through Snap and s3fs through APT. It imports no downloaded shell code.
 It stops on failed commands, writes `/etc/passwd-s3fs` with private permissions,
 prepares `/mnt/<bucket>` with sudo, adds a matching complete fstab
 entry if absent, and invokes `mount -a` for all configured filesystems.
 
 The script does not provision a bucket, define IAM policies, configure every
 FUSE prerequisite, or verify Plex Snap permissions. It assumes a compatible
-Ubuntu server and valid input. Remote utilities and system packages can change
-independently of this repository. Review them before each deployment.
+Ubuntu server and valid input. System packages can change independently of
+this repository. Review their compatibility before each deployment.
 
 ## Operational limits
 
